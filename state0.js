@@ -5,7 +5,7 @@ demo.state0 = function() {}; // property method of game state constructor
 demo.state0.prototype = { // sub methods of the state0 method
     preload: function(){
         // Adding images to the game RAM
-        game.load.image('catcher', 'img/catcherBig.png');
+        game.load.spritesheet('catcher', 'img/zombieSheet.png', 170, 276);
         game.load.image('cat', 'img/catBig.png');
         game.load.image('background', 'img/bgBig.png');
     },
@@ -47,20 +47,28 @@ demo.state0.prototype = { // sub methods of the state0 method
 
         // Instruct the camera to follow the player character
         game.camera.follow(catcher);
+
+        catcher.animations.add('walk', [0, 1, 2, 3]);
     },
     update: function(){
         // Check if a key is pressed and if this key is the one
         // in the statement then run the code inside it
         if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             catcher.x += speed;
-            catcher.scale.setTo(-0.7, 0.7);
+            catcher.scale.setTo(0.7, 0.7);
+            catcher.animations.play('walk', 5, true);
         } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             catcher.x -= speed;
-            catcher.scale.setTo(0.7, 0.7);
+            catcher.scale.setTo(-0.7, 0.7);
             if (catcher.x < 200) {
                 catcher.x = 200;
             }
-        } else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+            catcher.animations.play('walk', 5, true);
+        } else {
+            catcher.animations.stop('walk');
+            catcher.frame = 1;
+        }
+        if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
             catcher.y -= speed;
             if (catcher.y < 125) {
                 catcher.y = 125;
