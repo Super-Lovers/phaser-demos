@@ -1,11 +1,12 @@
 var demo = {}; // Game state constructor
-var catcher;
+var catcher, cat, score = 0, bigBG;
 var speed = 6;
 demo.state0 = function() {}; // property method of game state constructor
 demo.state0.prototype = { // sub methods of the state0 method
     preload: function(){
         // Adding images to the game RAM
         game.load.image('catcher', 'img/catcherBig.png');
+        game.load.image('cat', 'img/catBig.png');
         game.load.image('background', 'img/bgBig.png');
     },
     create: function(){
@@ -17,7 +18,7 @@ demo.state0.prototype = { // sub methods of the state0 method
 
         // Applying the background color or image
         // game.stage.backgroundColor = '#dddddd';
-        var bgBig = game.add.sprite(0, 0, 'background');
+        bgBig = game.add.sprite(0, 0, 'background');
         console.log('You are in state zero');
 
         // Making the game scale to the browser window
@@ -26,6 +27,11 @@ demo.state0.prototype = { // sub methods of the state0 method
         // Upload the image to the canvas in the center of the game screen
 
         catcher = game.add.sprite(game.width / 2, game.height / 2, 'catcher');
+        game.physics.enable(catcher);
+
+        cat = game.add.sprite(Math.random() * game.width,
+                                Math.random() * game.height, 'cat');
+        game.physics.enable(cat);
 
         // Set the point of origin of the sprite in the center of it
         // so that it centers properly instead of the top left corner
@@ -33,13 +39,13 @@ demo.state0.prototype = { // sub methods of the state0 method
 
         // Decrease the scale of the image by 30% percent so its smaller
         catcher.scale.setTo(0.7, 0.7);
+        cat.scale.setTo(0.6, 0.6);
 
         // Enabling physics for the character and setting game boundaries
         // collision to true
-        game.physics.enable(catcher);
         catcher.body.collideWorldBounds = true;
 
-        // instruct the camera to follow the player character
+        // Instruct the camera to follow the player character
         game.camera.follow(catcher);
     },
     update: function(){
@@ -61,6 +67,18 @@ demo.state0.prototype = { // sub methods of the state0 method
             }
         } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
             catcher.y += speed;
+        }
+
+        // Check if the catcher and cat sprites overlap
+        // and execute catCollisionHandler function
+        game.physics.arcade.overlap(catcher, cat, catCollisionHandler);
+
+        function catCollisionHandler(catcherObject, catObject) {
+            score++;
+            catObject.x = Math.random() * game.width,
+            catObject.y = Math.random() * game.height;
+
+            console.log("Score: " + score);
         }
     }
 };
