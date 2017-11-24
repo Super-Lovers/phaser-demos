@@ -9,7 +9,8 @@ demo.state1.prototype = {
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.stage.backgroundColor = '#DDDDDD';
+        // Phaser plugin addons
+        game.plugins.screenShake = game.plugins.add(Phaser.Plugin.ScreenShake);
 
         var map = game.add.tilemap('field');
         map.addTilesetImage('grassTiles');
@@ -35,6 +36,15 @@ demo.state1.prototype = {
 
         if (cursors.up.isDown) {
             catcher.body.velocity.y = -vel;
+
+            // Changing default screenShake settings
+            game.plugins.screenShake.setup({
+                shakeX: true,
+                shakeY: true
+            });
+
+            //Triggering a screenshake
+            game.plugins.screenShake.shake(7);
         } else if (cursors.down.isDown) {
             catcher.body.velocity.y = vel;
         }
