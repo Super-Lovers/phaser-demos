@@ -1,11 +1,10 @@
 var demo = {}; // Game state constructor
 var catcher, cat, score = 0, bigBG;
 var speed = 6;
-demo.state0 = function() {}; // property method of game state constructor
-demo.state0.prototype = { // sub methods of the state0 method
+demo.state0 = { // sub methods of the state0 method
     preload: function(){
         // Adding images to the game RAM
-        game.load.spritesheet('catcher', 'img/zombieSheet.png', 170, 276);
+        game.load.spritesheet('catcher', 'img/zombieSheet.png', 170, 276, 3);
         game.load.image('cat', 'img/catBig.png');
         game.load.image('background', 'img/bgBig.png');
     },
@@ -48,7 +47,20 @@ demo.state0.prototype = { // sub methods of the state0 method
         // Instruct the camera to follow the player character
         game.camera.follow(catcher);
 
-        catcher.animations.add('walk', [0, 1, 2, 3]);
+        catcher.animations.add('walk');
+
+        // Click event function
+        this.enlargeKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.enlargeKey.onDown.add(this.doSprint, this);
+        this.enlargeKey.onUp.add(this.doWalk, this);
+    },
+    doSprint: function() {
+        // catcher.scale.setTo(1.5, 0.5);
+        speed = 10;
+    },
+    doWalk: function() {
+        // catcher.scale.setTo(1.5, 0.5);
+        speed = 6;
     },
     update: function(){
         // Check if a key is pressed and if this key is the one
@@ -56,16 +68,16 @@ demo.state0.prototype = { // sub methods of the state0 method
         if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             catcher.x += speed;
             catcher.scale.setTo(0.7, 0.7);
-            catcher.animations.play('walk', 5, true);
+            catcher.animations.play('walk', 5);
         } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             catcher.x -= speed;
             catcher.scale.setTo(-0.7, 0.7);
             if (catcher.x < 200) {
                 catcher.x = 200;
             }
-            catcher.animations.play('walk', 5, true);
+            catcher.animations.play('walk', 5);
         } else {
-            catcher.animations.stop('walk');
+            catcher.animations.stop('walk', 5);
             catcher.frame = 1;
         }
         if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
