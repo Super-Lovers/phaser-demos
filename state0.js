@@ -1,5 +1,6 @@
 var demo = {}; // Game state constructor
 var catcher, cat, score = 0, bigBG;
+var catCaught;
 var speed = 6;
 demo.state0 = { // sub methods of the state0 method
     preload: function(){
@@ -7,10 +8,19 @@ demo.state0 = { // sub methods of the state0 method
         game.load.spritesheet('catcher', 'img/zombieSheet.png', 170, 276, 3);
         game.load.image('cat', 'img/catBig.png');
         game.load.image('background', 'img/bgBig.png');
+
+        // Music
+        game.load.audio('dreamCatcher', 'music/dreamcatcher.m4a');
+
+        // Sound effects
+        game.load.audio('catCaught', 'music/sounds/spoopy.ogg');
     },
     create: function(){
         // Always initialize the game physics in the first line
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        music = game.add.audio('dreamCatcher');
+        catCaught = game.add.audio('catCaught');
+        // music.play('', 0.1);
         // Setting the boundaries of the game window so that the
         // camera knows to follow the player until they are reached
         game.world.setBounds(0, 0, 2500, 1000);
@@ -49,7 +59,8 @@ demo.state0 = { // sub methods of the state0 method
 
         catcher.animations.add('walk');
 
-        // Click event function
+        // Spacebar button listeners that change the speed of
+        // the character when pressed down
         this.enlargeKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.enlargeKey.onDown.add(this.doSprint, this);
         this.enlargeKey.onUp.add(this.doWalk, this);
@@ -94,6 +105,7 @@ demo.state0 = { // sub methods of the state0 method
         game.physics.arcade.overlap(catcher, cat, catCollisionHandler);
 
         function catCollisionHandler(catcherObject, catObject) {
+            catCaught.play('', 1);
             score++;
             catObject.x = Math.random() * game.width,
             catObject.y = Math.random() * game.height;
