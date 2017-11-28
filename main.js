@@ -1,6 +1,6 @@
-var game = new Phaser.Game(1500, 1100, Phaser.AUTO);
+// var game = new Phaser.Game(1500, 1100, Phaser.AUTO);
 // Pong dimensions
-// var game = new Phaser.Game(600, 600, Phaser.AUTO);
+var game = new Phaser.Game(800, 600, Phaser.AUTO);
 game.state.add('state0', demo.state0);
 game.state.add('state1', demo.state1);
 game.state.add('state2', demo.state2);
@@ -12,4 +12,5 @@ game.state.add('state7', demo.state7);
 game.state.add('state8', demo.state8);
 game.state.add('state9', demo.state9);
 game.state.add('pong', demo.pong);
-game.state.start('state4');
+game.state.add('asteroids', demo.asteroids);
+game.state.start('asteroids');
