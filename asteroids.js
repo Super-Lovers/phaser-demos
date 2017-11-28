@@ -12,10 +12,6 @@ demo.asteroids = {
         game.load.image('asteroid3', 'img/asteroids/asteroid3Big.png');
     },
     create: function() {
-        // Physics
-        game.physics.enable(ship, Phaser.Physics.ARCADE);
-        game.physics.enable(asteroids, Phaser.Physics.ARCADE);
-
         game.stage.backgroundColor = '#142337';
 
         // Sprites
@@ -26,6 +22,9 @@ demo.asteroids = {
         ship.scale.set(0.3, 0.3);
         ship.anchor.set(0.5, 0.5);
 
+        // Physics
+        game.physics.enable(ship, Phaser.Physics.ARCADE);
+
         for (let i = 0; i < 10; i++) {
             asteroids[i] = game.add.sprite(0, 0, asteroidsSprite[Math.floor(Math.random() * 2)]);
             asteroids[i].position = new Phaser.Point(game.rnd.frac() * 800,
@@ -34,11 +33,12 @@ demo.asteroids = {
             asteroids[i].anchor.set(0.5, 0.5);
         }
 
-        for (i = 0; i < 10; i++) {
-            let accelerate = new Phaser.Point(75, 0);
-            accelerate = (Phaser.Point.rotate(accelerate, 0, 0, ship.angle, true));
-            ship.body.acceleration = accelerate;
-        }
+        // let screenCenter = new Phaser.Point(game.world.centerX, game.world.centerY);
+
+        // for (var i = 0; i < 10; i++) {
+        //     asteroids[i].body.velocity = Phaser.Point.subtract(screenCenter, asteroidsSprite[i].position).normalize().setMagnitude(game.rnd.frac() * 30);
+        //     asteroids[i].body.angularVelocity = game.rnd.frac() * 300;
+        // }
 
         // Movement
         shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -51,39 +51,40 @@ demo.asteroids = {
         weapon.trackSprite(ship, 15, 0);
         weapon.bulletSpeed = 460;
         weapon.fireRate = 300;
+        game.physics.enable(asteroids, Phaser.Physics.ARCADE);
     },
     update: function() {
-        // Rotation of ship
-        if (rotateLeftButton.isDown) {
-            ship.angle -= 4;
-        } else if (rotateRightButton.isDown) {
-            ship.angle += 4;
-        }
-
+        // change the acceleration on input
         if (accelerateButton.isDown) {
-            // Create a new acceleration point and set it to the ship
-            let accelerate = new Phaser.Point(100, 0);
-            accelerate = Phaser.Point.rotate(accelerate, 0, 0, ship.angle, );
-            ship.body.acceleration = accelerate;
-        } else {
-            ship.body.accelerate = new.Phaser.Point(0, 0);
+            let acceleration = new Phaser.Point(100, 0);
+            acceleration = Phaser.Point.rotate(acceleration, 0, 0, ship.angle, true);
+            ship.body.acceleration = acceleration;
+        }
+        else {
+            ship.body.acceleration = new Phaser.Point(0, 0);
         }
 
-        // Shoot
-        if (shootButton.isDown) {
+        // rotate the ship
+        if (rotateLeftButton.isDown) {
+            ship.angle -= 2;
+        }
+        if (rotateRightButton.isDown) {
+            ship.angle += 2;
+        }
+
+        // shoot
+        if (shootButton.isDown && ship.visible) {
             weapon.fireAngle = ship.angle;
-            let bullet = weapon.fire();
+            var bullet = weapon.fire();
         }
 
-        // Check bullet collision
-        // game.physics.arcade.overlap(weapon.bullets, asteroids, onBulletHit);
-        // function onBulletHit(b, a) {
-        //     b.kill();
-        //     a.kill();
-        // }
+        // check collision between ship and asteroids
+        if (game.physics.arcade.overlap(ship, asteroids)) {
+            ship.visible = false;
+        }
+        game.physics.arcade.overlap(weapon.bullets, asteroids, function(obj1, obj2) {
+            obj1.kill();
+            obj2.kill();
+        });
     }
-    // onBulletHit: function(b, a) {
-    //     b.kill();
-    //     a.kill();
-    // }
 }
