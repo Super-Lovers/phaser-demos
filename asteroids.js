@@ -10,9 +10,11 @@ demo.asteroids = {
         game.load.image('asteroid1', 'img/asteroids/asteroid1Big.png');
         game.load.image('asteroid2', 'img/asteroids/asteroid2Big.png');
         game.load.image('asteroid3', 'img/asteroids/asteroid3Big.png');
+        game.load.image('space', 'img/monitorBig.png')
     },
     create: function() {
         game.stage.backgroundColor = '#142337';
+        background = game.add.sprite(0, 0, 'space');
 
         // Sprites
         // ship = game.add.sprite(game.width/2, game.height/2, 'ship');
@@ -27,8 +29,8 @@ demo.asteroids = {
 
         for (let i = 0; i < 10; i++) {
             asteroids[i] = game.add.sprite(0, 0, asteroidsSprite[Math.floor(Math.random() * 2)]);
-            asteroids[i].position = new Phaser.Point(game.rnd.frac() * 800,
-                                                    game.rnd.frac() * 600);
+            asteroids[i].position = new Phaser.Point(game.rnd.frac() * 700,
+                                                    game.rnd.frac() * 500);
             asteroids[i].scale.set(0.2, 0.2);
             asteroids[i].anchor.set(0.5, 0.5);
         }

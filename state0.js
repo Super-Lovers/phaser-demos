@@ -74,6 +74,11 @@ demo.state0 = { // sub methods of the state0 method
         speed = 6;
     },
     update: function(){
+        // Debugging the physics bodies displays the bounding
+        // box of the sprites while playing to play-testing purposes
+        // game.debug.body(catcher);
+        // game.debug.body(cat);
+
         // Check if a key is pressed and if this key is the one
         // in the statement then run the code inside it
         if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {

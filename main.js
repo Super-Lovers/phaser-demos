@@ -13,4 +13,6 @@ game.state.add('state8', demo.state8);
 game.state.add('state9', demo.state9);
 game.state.add('pong', demo.pong);
 game.state.add('asteroids', demo.asteroids);
-game.state.start('asteroids');
+game.state.add('rain', demo.rain);
+game.state.add('minefield', demo.minefield);
+game.state.start('state0');
