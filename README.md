@@ -6,14 +6,14 @@ Those are some exercises I am doing to study developing games. I'm learning from
 
 ## Preview
 
-## Asteroids
+### Asteroids
 
 ![Imgur](https://i.imgur.com/wLZyhw6.png)
 
-## Zombie chasing a cat
+### Zombie chasing a cat
 
 ![Imgur](https://i.imgur.com/ejL2JER.png)
 
-## Pong
+### Pong
 
 ![Imgur](https://i.imgur.com/O64xMwj.png)
