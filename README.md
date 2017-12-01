@@ -14,6 +14,10 @@ Those are some exercises I am doing to study developing games. I'm learning from
 
 ![Imgur](https://i.imgur.com/ejL2JER.png)
 
+### Volcano eruption
+
+![Imgur](https://i.imgur.com/sYgbwB5.png)
+
 ### Pong
 
 ![Imgur](https://i.imgur.com/O64xMwj.png)
