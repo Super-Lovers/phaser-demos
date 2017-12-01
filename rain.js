@@ -12,6 +12,8 @@ demo.rain = {
         game.physics.enable([ground, rain], Phaser.Physics.ARCADE);
         rain.body.velocity.y = 600;
 
+        ground.body.immovable = true;
+
         // Prevent the ground from being applied velocity
     },
     update: function() {
